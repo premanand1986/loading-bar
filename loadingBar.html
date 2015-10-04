@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Loading Bar</title>
+		<link href="../styles/template.css" media="all" rel="stylesheet" type="text/css">
+		<style>
+			div.demospace {
+				padding :10px;
+				}
+			
+			
+			div.loader_bar_static {
+				height: 14px;
+				width: 400px;
+				border: 1px solid #949494;
+				margin: 0px auto;
+				background-color: #fff;
+				}
+			
+		</style>
+		<script type="text/javascript" src="../javascripts/prototype_1.6.js"></script>
+		<script type="text/javascript" src="../javascripts/loadingBar.js"></script>
+		
+		<script>
+		
+			var trig_loadbar = function(){
+				if(window.loadingBar){
+					var options;
+					if(document.getElementById("loader_bar_1")){
+						document.getElementById("loader_bar_static_1").parentNode.removeChild(document.getElementById("loader_bar_static_1"));
+						
+						var syncDataFeeder = function(barObject) {
+							var refPoints=[20,150,270,350,400];
+							var refPointsTimer=[1000,3000,6000,6000,3000];
+							var pointer=0;
+							var logic = function() {
+								if(pointer<refPoints.length) {
+									barObject.moveTo(refPoints[pointer]);
+									pointer++;
+									if(refPointsTimer[pointer])
+										setTimeout(logic,refPointsTimer[pointer]);
+								}
+							}
+							
+							setTimeout(logic,refPointsTimer[pointer]);
+						}
+						
+						options = {mode:"sync", syncDataFeeder:syncDataFeeder, styles:{width:"400px", backgroundColor:"#fff", forgroundImage:"../images/loadingBar.gif"}, duration:5};
+						loader_bar_1 = new loadingBar(document.getElementById("loader_bar_1"),options);
+					}
+					
+					
+					
+					if(document.getElementById("loader_bar_2")){
+						document.getElementById("loader_bar_static_2").parentNode.removeChild(document.getElementById("loader_bar_static_2"));
+						options = {mode:"async", styles:{width:"400px", backgroundColor:"#fff", forgroundImage:"../images/loadingBar.gif"}, duration:9};
+						loader_bar_2 = new loadingBar(document.getElementById("loader_bar_2"),options);
+					}
+				}
+			};
+		
+			window.onload=trig_loadbar;
+		
+		</script>
+	</head>
+	<body >
+
+		<h2 class="pagetitle">Loading Bar</h2>
+		
+		<div class="template">
+			<div class="demospace">
+				Synchronous
+				<div id="loader_bar_1">
+					<div id="loader_bar_static_1" class="loader_bar_static">
+					</div>
+					
+				</div>
+				<br /><br /><br />
+				Asynchronous
+				<div id="loader_bar_2">
+					<div id="loader_bar_static_2" class="loader_bar_static">
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	
+	</body>
+</html>
